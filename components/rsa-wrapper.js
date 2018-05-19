@@ -37,7 +37,30 @@ module.exports = rsaWrapper;
     rsaWrapper.serverPub = fs.readFileSync(path.resolve(basePath, 'components', 'keys', 'client2.public.pem'));
     rsaWrapper.serverPrivate = fs.readFileSync(path.resolve(basePath, 'components','keys', 'client2.private.pem'));
     rsaWrapper.clientPub = fs.readFileSync(path.resolve(basePath,  'components','keys', 'client.public.pem'));
-    };
+
+};
+    var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "rsa"
+});
+var biji="aaaa";
+con.connect(function(err) {
+    
+    if (err) throw err;
+    console.log("Connected!");
+    var sql = "INSERT INTO chat_room (public_key_1, public_key_2) VALUES (' "+rsaWrapper.serverPub+"', 'asdad')";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+  });
+
+
+
     // Run RSA encryption test scenario. Message is encrypted, log on console in base64 format and message is decrypted and log on console.
     rsaWrapper.serverExampleEncrypt = () => {
     console.log('Server public encrypting');
